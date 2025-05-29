@@ -1,7 +1,6 @@
-
 import { createContext, useContext, useState, ReactNode } from "react";
 
-type Section = "dashboard" | "analytics" | "reports" | "trends" | "users" | "calendar" | "documents";
+type Section = "dashboard" | "analytics" | "reports" | "trends" | "users" | "calendar" | "documents" | "settings";
 
 interface NavigationContextType {
   currentSection: Section;
