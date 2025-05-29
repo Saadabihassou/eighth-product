@@ -1,27 +1,27 @@
 
 import { Home, BarChart3, PieChart, TrendingUp, Settings, Users, Calendar, FileText } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from "@/components/ui/sidebar";
+import { useNavigation } from "@/hooks/useNavigation";
 
 const navigationItems = [
   {
     title: "Dashboard",
-    url: "#",
+    section: "dashboard" as const,
     icon: Home,
-    isActive: true,
   },
   {
     title: "Analytics",
-    url: "#",
+    section: "analytics" as const,
     icon: BarChart3,
   },
   {
     title: "Reports",
-    url: "#",
+    section: "reports" as const,
     icon: PieChart,
   },
   {
     title: "Trends",
-    url: "#",
+    section: "trends" as const,
     icon: TrendingUp,
   },
 ];
@@ -29,27 +29,29 @@ const navigationItems = [
 const managementItems = [
   {
     title: "Users",
-    url: "#",
+    section: "users" as const,
     icon: Users,
   },
   {
     title: "Calendar",
-    url: "#",
+    section: "calendar" as const,
     icon: Calendar,
   },
   {
     title: "Documents",
-    url: "#",
+    section: "documents" as const,
     icon: FileText,
   },
   {
     title: "Settings",
-    url: "#",
+    section: "settings" as const,
     icon: Settings,
   },
 ];
 
 export function AppSidebar() {
+  const { currentSection, setCurrentSection } = useNavigation();
+
   return (
     <Sidebar className="border-r border-border/40">
       <SidebarHeader className="border-b border-border/40 p-6">
@@ -74,14 +76,12 @@ export function AppSidebar() {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
-                    asChild 
-                    isActive={item.isActive}
+                    isActive={currentSection === item.section}
                     className="w-full justify-start gap-3 hover:bg-accent/50 transition-colors"
+                    onClick={() => setCurrentSection(item.section)}
                   >
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-md">
-                      <item.icon className="w-4 h-4" />
-                      <span className="text-sm font-medium">{item.title}</span>
-                    </a>
+                    <item.icon className="w-4 h-4" />
+                    <span className="text-sm font-medium">{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -98,13 +98,12 @@ export function AppSidebar() {
               {managementItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
-                    asChild
+                    isActive={currentSection === item.section}
                     className="w-full justify-start gap-3 hover:bg-accent/50 transition-colors"
+                    onClick={() => setCurrentSection(item.section)}
                   >
-                    <a href={item.url} className="flex items-center gap-3 px-3 py-2 rounded-md">
-                      <item.icon className="w-4 h-4" />
-                      <span className="text-sm font-medium">{item.title}</span>
-                    </a>
+                    <item.icon className="w-4 h-4" />
+                    <span className="text-sm font-medium">{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
