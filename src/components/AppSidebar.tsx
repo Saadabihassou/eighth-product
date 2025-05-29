@@ -1,7 +1,9 @@
 
-import { Home, BarChart3, PieChart, TrendingUp, Settings, Users, Calendar, FileText } from "lucide-react";
+import { Home, BarChart3, PieChart, TrendingUp, Settings, Users, Calendar, FileText, LogOut } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter } from "@/components/ui/sidebar";
 import { useNavigation } from "@/hooks/useNavigation";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 const navigationItems = [
   {
@@ -113,14 +115,28 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-border/40 p-4">
-        <div className="flex items-center gap-3 px-3 py-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-            <span className="text-xs font-medium text-white">JD</span>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 px-3 py-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+              <span className="text-xs font-medium text-white">JD</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xs font-medium">John Doe</span>
+              <span className="text-xs text-muted-foreground">Admin</span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-xs font-medium">John Doe</span>
-            <span className="text-xs text-muted-foreground">Admin</span>
-          </div>
+          
+          <Separator />
+          
+          {/* Logout button - will be functional once Supabase is connected */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start gap-3 text-sm font-medium hover:bg-destructive/10 hover:text-destructive transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </Button>
         </div>
       </SidebarFooter>
     </Sidebar>
