@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Calendar, Filter } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,6 +56,22 @@ const reports = [
     size: "1.5 MB",
     type: "PDF"
   }
+];
+
+const reportGenerationData = [
+  { month: "Jan", reports: 12, downloads: 145 },
+  { month: "Feb", reports: 19, downloads: 230 },
+  { month: "Mar", reports: 15, downloads: 180 },
+  { month: "Apr", reports: 22, downloads: 290 },
+  { month: "May", reports: 18, downloads: 220 },
+  { month: "Jun", reports: 25, downloads: 340 }
+];
+
+const reportTypesData = [
+  { name: "Sales", value: 35, color: "#8884d8" },
+  { name: "Financial", value: 25, color: "#82ca9d" },
+  { name: "User Analytics", value: 20, color: "#ffc658" },
+  { name: "Performance", value: 20, color: "#ff7c7c" }
 ];
 
 export function ReportsSection() {
@@ -144,19 +161,99 @@ export function ReportsSection() {
       </motion.div>
 
       <motion.div variants={itemVariants}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Custom Report Builder</CardTitle>
-            <CardDescription>
-              Create custom reports with your preferred metrics and timeframes
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[300px] flex items-center justify-center text-muted-foreground border-2 border-dashed rounded-lg">
-              Custom report builder interface coming soon
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Report Generation Trends</CardTitle>
+              <CardDescription>
+                Monthly report generation and download statistics
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={reportGenerationData}>
+                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                    <XAxis 
+                      dataKey="month" 
+                      className="text-xs fill-muted-foreground"
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis 
+                      className="text-xs fill-muted-foreground"
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--background))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "6px",
+                      }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="reports" 
+                      stroke="hsl(var(--primary))" 
+                      strokeWidth={2}
+                      dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6 }}
+                      name="Reports Generated"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="downloads" 
+                      stroke="#82ca9d" 
+                      strokeWidth={2}
+                      dot={{ fill: "#82ca9d", strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6 }}
+                      name="Downloads"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Report Types Distribution</CardTitle>
+              <CardDescription>
+                Breakdown of report types generated
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={reportTypesData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      innerRadius={40}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {reportTypesData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--background))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "6px",
+                      }}
+                      formatter={(value) => [`${value}%`, "Percentage"]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </motion.div>
     </motion.div>
   );
